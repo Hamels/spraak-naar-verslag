@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inloggen — WIJeindhoven</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-wij">Nath</span><span class="logo-rest">AI</span>
+            </a>
+            <nav class="nav">
+                <span class="nav-label">Spraak naar Verslag</span>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>Inloggen</h1>
+            <p>Log in om de spraak-naar-verslag tool te gebruiken.</p>
+        </div>
+    </section>
+
+    <main class="main">
+        <div class="container">
+            <div class="login-card">
+                <h2>Welkom</h2>
+                <p class="login-subtitle">Voer je gegevens in om door te gaan.</p>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Gebruikersnaam</label>
+                        <input type="text" id="username" name="username" autocomplete="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Wachtwoord</label>
+                        <input type="password" id="password" name="password" autocomplete="current-password" required>
+                    </div>
+                    <p class="login-error" id="loginError"></p>
+                    <button type="submit" class="btn btn-primary btn-large">Inloggen</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; NathAI 2026 — Spraak naar Verslag</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errorEl = document.getElementById('loginError');
+            errorEl.classList.remove('visible');
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                if (res.ok) {
+                    window.location.href = '/';
+                } else {
+                    const data = await res.json();
+                    errorEl.textContent = data.error || 'Inloggen mislukt.';
+                    errorEl.classList.add('visible');
+                }
+            } catch {
+                errorEl.textContent = 'Kan geen verbinding maken met de server.';
+                errorEl.classList.add('visible');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+[Unit]
+Description=Spraak naar Tekst - WIJeindhoven
+After=network.target
+
+[Service]
+Type=simple
+User=stefan
+WorkingDirectory=/opt/speech-to-text
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+RestartSec=5
+Environment=NODE_ENV=production
+EnvironmentFile=/opt/speech-to-text/.env
+
+[Install]
+WantedBy=multi-user.target
