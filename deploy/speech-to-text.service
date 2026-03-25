@@ -1,5 +1,5 @@
 [Unit]
-Description=Spraak naar Tekst - WIJeindhoven
+Description=Spraak naar Tekst - NathAI
 After=network.target
 
 [Service]
